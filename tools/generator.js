@@ -31,7 +31,10 @@ function drawBot(num){
             <img style="top:${num*272}px" class="piece" src="./parts/mouths/${traits.mouths}.png" />
             <img style="top:${num*272}px" class="piece" src="./parts/hats/${traits.hats}.png" />
             <img style="top:${num*272}px" class="piece" src="./parts/borg/${traits.borg}.png" />
-            <div style="top:${num*272}px; left:10%" class="piece">${num}</div>
+            <div style="top:${num*272}px; left:10%" class="piece">
+            
+            ${JSON.stringify(bots[num], false, '\n').replace(",", `,\n`)}
+            </div>
         </div>
     `
 }
