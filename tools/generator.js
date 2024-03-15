@@ -23,7 +23,7 @@ function drawBot(num){
     let traits=bots[num].traits
     return `
         <div class="bot">
-            <img style="top:${num*272}px" class="piece" src="./parts/backgrounds/${traits.backgrounds}.png" />
+            <img style="top:${num*272}px" class="piece border" src="./parts/backgrounds/${traits.backgrounds}.png" />
             <img style="top:${num*272}px" class="piece" src="./parts/bodies/${traits.bodies}.png" />
             <img style="top:${num*272}px" class="piece" src="./parts/clothing/${traits.clothing}.png" />
             <img style="top:${num*272}px" class="piece" src="./parts/accessories/${traits.accessories}.png" />
@@ -31,15 +31,41 @@ function drawBot(num){
             <img style="top:${num*272}px" class="piece" src="./parts/mouths/${traits.mouths}.png" />
             <img style="top:${num*272}px" class="piece" src="./parts/hats/${traits.hats}.png" />
             <img style="top:${num*272}px" class="piece" src="./parts/borg/${traits.borg}.png" />
+            <div style="top:${num*272}px; left:10%" class="piece">${num}</div>
         </div>
     `
 }
-function ruleQualifies(rules, digits){
+function ruleQualifies(data, digits){
     let r = false
-    for(rule in rules){
-        if(Number(digits[rule])==rules[rule]){
-            r=true
-        }else{return false}
+    let andRules=data.rules||{}
+    let orRules=data.orRules||{}
+    let containsRules=data.containsRules
+
+    // console.log(digits, data)
+    //check contains rules
+    if(containsRules!=undefined){
+        for(rule in containsRules){
+            if(digits.filter(value => value === containsRules[rule].n).length == containsRules[rule].c){
+                return true
+            }
+        }
+    }
+    //check OR rules
+    if(orRules!=undefined){
+        for(rule in orRules){
+            if(Number(digits[rule])==orRules[rule]){
+                return true
+            }
+        }
+    }
+    //check AND rules
+    
+    if(andRules!=undefined){
+        for(rule in andRules){
+            if(Number(digits[rule])==andRules[rule]){
+                r=true
+            }else{return false}
+        }
     }
     return r
 }
@@ -50,7 +76,7 @@ function getTrait(traitType, block){
         let partData = parts[traitType][part]
         if(partData.default==true){
             trait=part
-        }else if(ruleQualifies(partData.rules, digits)){
+        }else if(ruleQualifies(partData, digits)){
             return part
         }
     }
@@ -96,38 +122,56 @@ let parts = {
             default:true
         },
         "city":{
-            rules:{
-                5:5
-            }
+            containsRules:[
+                {
+                    n:"3",
+                    c:9
+                }
+            ]
         },
         "dmt":{
-            rules:{
-                5:4
-            }
+            containsRules:[
+                {
+                    n:"1",
+                    c:9
+                }
+            ]
 
         },
         "dungeon":{
-            rules:{
-                5:3
-            }
+            containsRules:[
+                {
+                    n:"0",
+                    c:9
+                }
+            ]
 
         },
         "gold":{
-            rules:{
-                5:2
-            }
+            containsRules:[
+                {
+                    n:"6",
+                    c:9
+                }
+            ]
 
         },
         "mechanic":{
-            rules:{
-                5:1
-            }
+            containsRules:[
+                {
+                    n:"5",
+                    c:9
+                }
+            ]
 
         },
         "stars":{
-            rules:{
-                5:0
-            }
+            containsRules:[
+                {
+                    n:"2",
+                    c:9
+                }
+            ]
 
         },
     },
@@ -181,6 +225,9 @@ let parts = {
         },
         "chain":{
 
+            rules:{
+                4:6
+            }
         }
     },
     borg:{
@@ -189,9 +236,15 @@ let parts = {
             
         },
         "borg1":{
+            rules:{
+                4:9
+            }
             
         },
         "borg2":{
+            rules:{
+                4:8
+            }
             
         },
     },
@@ -200,209 +253,211 @@ let parts = {
             default:true
             
         },
-        "blackT":{
-            rules:{
-                4:9
-            }
-            
-        },
-        "bladeJacket":{
-            rules:{
-                4:8
-            }
-            
-        },
-        "cursedJacket":{
-            rules:{
-                4:7
-            }
-            
-        },
-        "hoodie":{
-            rules:{
-                4:6
-            }
-            
-        },
         "whiteT":{
             rules:{
-                4:5
+                4:0
             }
             
         },
         "whiteTSimple":{
             rules:{
+                4:1
+            }
+            
+        },
+        "blackT":{
+            rules:{
+                4:2
+            }
+            
+        },
+        "hoodie":{
+            rules:{
+                4:3
+            }
+            
+        },
+        "cursedJacket":{
+            rules:{
                 4:4
+            }
+            
+        },
+        "bladeJacket":{
+            rules:{
+                4:5
             }
             
         },
     },
     eyes:{
-        "bitmapVR":{
+        "orange":{
             default:true
-            
-        },
-        "bitrunner":{
-            rules:{
-                2:0
-            }
-            
-        },
-        "blueXVisor":{
-            rules:{
-                3:9,
-                2:1
-            }
-            
-        },
-        "blurryBlue":{
-            rules:{
-                3:8,
-                2:1
-            }
-            
-        },
-        "blurryOrange":{
-            rules:{
-                3:7,
-                2:1
-            }
-            
-        },
-        "classicXVisor":{
-            rules:{
-                3:6,
-                2:1
-            }
-            
-        },
-        "cursedVR":{
-            rules:{
-                3:5,
-                2:1
-            }
             
         },
         "dmtVR":{
             rules:{
-                3:4,
-                2:1
-            }
-            
-        },
-        "eliteShades":{
-            rules:{
-                3:3,
-                2:1
+                2:0,
+                5:0
             }
             
         },
         "eyePatch":{
             rules:{
-                3:2,
-                2:1
+                2:0,
+                5:1
             }
             
         },
-        "fud":{
+        "bitmapVR":{
             rules:{
-                3:1,
-                2:1
+                2:0,
+                5:2
             }
             
         },
-        "laser":{
-            rules:{
-                3:9,
-                2:2
-            }
-            
-        },
-        "neoTokyo":{
-            rules:{
-                3:8,
-                2:2
-            }
-            
-        },
-        "orange":{
-            rules:{
-                3:7,
-                2:2
-            }
-            
-        },
-        "ordi":{
-            rules:{
-                3:6,
-                2:2
-            }
-            
-        },
-        "ordiBlue":{
-            rules:{
-                3:0,
-                2:2
-            }
-            
-        },
+        
         "ordinalThug":{
             rules:{
-                3:0,
-                2:2
+                2:1,
+                3:0
             }
             
         },
         "oversized":{
             rules:{
-                3:0,
-                2:2
+                2:1,
+                3:1
             }
             
         },
         "purple":{
             
             rules:{
-                3:5,
-                2:2
+                2:1,
+                3:2
             }
             
         },
         "redTriclops":{
             rules:{
-                3:4,
-                2:2
+                2:1,
+                3:3
             }
             
         },
         "stoned":{
             rules:{
-                3:3,
-                2:2
+                2:1,
+                3:4
             }
             
         },
         "triclops":{
             rules:{
-                3:2,
-                2:2
+                2:1,
+                3:5
             }
             
         },
-        "XPVisor":{
+        "fud":{
             rules:{
-                3:1,
-                2:2
+                2:1,
+                3:6
+            }
+            
+        },
+        "blurryBlue":{
+            rules:{
+                2:1,
+                3:7
+            }
+            
+        },
+        "blurryOrange":{
+            rules:{
+                2:1,
+                3:8
+            }
+            
+        },
+        "classicXVisor":{
+            rules:{
+                2:1,
+                3:9
             }
             
         },
         "yellowShades":{
             rules:{
-                3:0,
-                2:2
+                2:2,
+                3:0
             }
             
-        }
+        },
+        "bitrunner":{
+            rules:{
+                2:2,
+                3:1
+            }
+            
+        },
+        "blueXVisor":{
+            rules:{
+                2:2,
+                3:2
+            }
+            
+        },
+        "cursedVR":{
+            rules:{
+                2:2,
+                3:3
+            }
+            
+        },
+        
+        "XPVisor":{
+            rules:{
+                2:2,
+                3:4
+            }
+            
+        },
+        "eliteShades":{
+            rules:{
+                2:2,
+                3:5
+            }
+            
+        },
+        "laser":{
+            rules:{
+                2:2,
+                3:6
+            }
+            
+        },
+        "neoTokyo":{
+            rules:{
+                2:2,
+                3:7
+            }
+            
+        },
+        "ordi":{
+            rules:{
+                2:2,
+                3:8
+            }
+        },
+        "ordiBlue":{
+            rules:{
+                2:2,
+                3:9
+            }
+            
+        },
     },
     hats:{
         "none":{
@@ -411,31 +466,36 @@ let parts = {
         },
         "bonnie":{
             rules:{
+                2:1,
                 4:9
             }
             
         },
         "circuits":{
             rules:{
+                2:1,
                 4:8
             }
             
         },
         "cursed":{
             rules:{
+                2:1,
                 4:7
             }
             
         },
         "daft":{
             rules:{
+                2:1,
                 4:6
             }
             
         },
         "pirateDjinn":{
             rules:{
-                4:5
+                2:0,
+                4:7
             }
             
         }
@@ -448,38 +508,63 @@ let parts = {
         "blunt":{
             
             rules:{
-                4:5
+                5:0
             }
         },
         "bubblegum":{
 
             rules:{
-                4:4
+                5:0,
+                2:1
             }
         },
         "laugh":{
             rules:{
-                4:3
+                5:1
             }
             
         },
         "pirate":{
             rules:{
-                4:2
+                5:2
             }
             
         },
         "rainbow":{
             rules:{
-                4:1
+                5:3
             }
             
         },
         "toungue":{
             rules:{
-                4:0
+                5:4
             }
             
         }
     }
 }
+function countTraitFrequencies(objects) {
+    const traitFrequencies = {};
+  
+    objects.forEach(obj => {
+      Object.keys(obj.traits).forEach(trait => {
+        const value = obj.traits[trait];
+  
+        // Initialize the trait category if it doesn't exist
+        if (!traitFrequencies[trait]) {
+          traitFrequencies[trait] = {};
+        }
+  
+        // Initialize the trait value counter if it doesn't exist
+        if (!traitFrequencies[trait][value]) {
+          traitFrequencies[trait][value] = 0;
+        }
+  
+        // Increment the counter for this trait value
+        traitFrequencies[trait][value]++;
+      });
+    });
+  
+    return traitFrequencies;
+  }
