@@ -33,11 +33,13 @@ function drawBot(num){
     `
 }
 function ruleQualifies(rules, digits){
+    let r = false
     for(rule in rules){
         if(Number(digits[rule])==rules[rule]){
-            return true
+            r=true
         }else{return false}
     }
+    return r
 }
 function getTrait(traitType, block){
     let digits = block.toString().split("")
@@ -95,37 +97,37 @@ let parts = {
         },
         "blue":{
             rules:{
-                4:7
+                5:9
             }
 
         },
         "cursed":{
             rules:{
-                4:6
+                5:8
             }
 
         },
         "hybrid":{
             rules:{
-                4:5
+                5:7
             }
 
         },
         "purple":{
             rules:{
-                4:4
+                5:6
             }
 
         },
         "unbot":{
             rules:{
-                4:3
+                5:5
             }
 
         },
         "vbot":{
             rules:{
-                4:2
+                5:4
             }
 
         },
@@ -158,21 +160,39 @@ let parts = {
             
         },
         "blackT":{
+            rules:{
+                4:9
+            }
             
         },
         "bladeJacket":{
+            rules:{
+                4:8
+            }
             
         },
         "cursedJacket":{
+            rules:{
+                4:7
+            }
             
         },
         "hoodie":{
+            rules:{
+                4:6
+            }
             
         },
         "whiteT":{
+            rules:{
+                4:5
+            }
             
         },
         "whiteTSimple":{
+            rules:{
+                4:4
+            }
             
         },
     },
