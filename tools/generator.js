@@ -124,16 +124,16 @@ let parts = {
         "city":{
             containsRules:[
                 {
-                    n:"3",
-                    c:9
+                    n:"9",
+                    c:2
                 }
             ]
         },
         "dmt":{
             containsRules:[
                 {
-                    n:"1",
-                    c:9
+                    n:"8",
+                    c:2
                 }
             ]
 
@@ -141,8 +141,8 @@ let parts = {
         "dungeon":{
             containsRules:[
                 {
-                    n:"0",
-                    c:9
+                    n:"3",
+                    c:2
                 }
             ]
 
@@ -150,8 +150,8 @@ let parts = {
         "gold":{
             containsRules:[
                 {
-                    n:"6",
-                    c:9
+                    n:"7",
+                    c:2
                 }
             ]
 
@@ -160,7 +160,7 @@ let parts = {
             containsRules:[
                 {
                     n:"5",
-                    c:9
+                    c:2
                 }
             ]
 
@@ -168,8 +168,8 @@ let parts = {
         "stars":{
             containsRules:[
                 {
-                    n:"2",
-                    c:9
+                    n:"4",
+                    c:2
                 }
             ]
 
@@ -226,7 +226,7 @@ let parts = {
         "chain":{
 
             rules:{
-                4:6
+                4:7
             }
         }
     },
