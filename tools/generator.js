@@ -132,7 +132,7 @@ let parts = {
         "dmt":{
             containsRules:[
                 {
-                    n:"8",
+                    n:"3",
                     c:2
                 }
             ]
@@ -141,7 +141,7 @@ let parts = {
         "dungeon":{
             containsRules:[
                 {
-                    n:"3",
+                    n:"5",
                     c:2
                 }
             ]
@@ -150,7 +150,7 @@ let parts = {
         "gold":{
             containsRules:[
                 {
-                    n:"7",
+                    n:"4",
                     c:2
                 }
             ]
@@ -159,7 +159,7 @@ let parts = {
         "mechanic":{
             containsRules:[
                 {
-                    n:"5",
+                    n:"8",
                     c:2
                 }
             ]
@@ -168,7 +168,7 @@ let parts = {
         "stars":{
             containsRules:[
                 {
-                    n:"4",
+                    n:"7",
                     c:2
                 }
             ]
