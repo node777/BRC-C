@@ -1,4 +1,4 @@
-let items = [
+[
     "8f490eb0b70b64850e13a4b0a7616125e4a0acd5401ffb6f055621fd1ddc28fdi0",
     "8f490eb0b70b64850e13a4b0a7616125e4a0acd5401ffb6f055621fd1ddc28fdi1",
     "8f490eb0b70b64850e13a4b0a7616125e4a0acd5401ffb6f055621fd1ddc28fdi2",
@@ -2016,32 +2016,3 @@ let items = [
     "9926510743b98965cf4fbd30b3a1db960f388a11c4205715ee522c753e9285dai161",
     "9926510743b98965cf4fbd30b3a1db960f388a11c4205715ee522c753e9285dai162"
 ]
-let output=[]
-const fs = require('fs');
-
-for(i in items){
-    output.push({
-        "id":items[i],
-        "meta":{
-            "name": `BITMAP BOT #${Number(Number(i)+Number(1))}`,
-            "high_res_img_url": "https://raw.githubusercontent.com/node777/BRC-C/0eebf1b3fe308cecde69d31a086db8e436d7386c/assets/bot.jpg",
-            "attributes":[
-                {
-                    "trait_type": "Traits",
-                    "value": "Loading..."
-                }
-            ]
-        }
-    })
-}
-// Convert JSON object to string
-const dataString = JSON.stringify(output, null, 1);
-
-// Write JSON string to a file
-fs.writeFile('./output.json', dataString, (err) => {
-  if (err) {
-    console.error('An error occurred:', err);
-    return;
-  }
-  console.log('JSON file has been saved.');
-});
