@@ -29,6 +29,8 @@ function drawBot(num){
             <img style="top:${num*272}px" class="piece" src="./parts/accessories/${traits.accessories}.png" />
             <img style="top:${num*272}px" class="piece" src="./parts/eyes/${traits.eyes}.png" />
             <img style="top:${num*272}px" class="piece" src="./parts/mouths/${traits.mouths}.png" />
+            <img style="top:${num*272}px" class="piece" src="./parts/hats/${traits.hats}.png" />
+            <img style="top:${num*272}px" class="piece" src="./parts/borg/${traits.borg}.png" />
         </div>
     `
 }
@@ -63,6 +65,30 @@ function generateTraits(block){
     }
     return traits
 }
+function findObjectsWithIdenticalTraits(objects) {
+    const traitGroups = {};
+
+    objects.forEach(obj => {
+        // Create a signature string from the traits object
+        const traitsSignature = JSON.stringify(obj.traits);
+
+        // If the group for this signature does not exist, create it
+        if (!traitGroups[traitsSignature]) {
+            traitGroups[traitsSignature] = [];
+        }
+
+        // Add the object to the corresponding group
+        traitGroups[traitsSignature].push(obj);
+    });
+
+    // Now, traitGroups contains arrays of objects grouped by identical traits
+    // You can process this however you need; for example, to find groups with more than one member (identical traits)
+    for (const [signature, group] of Object.entries(traitGroups)) {
+        if (group.length > 1) {
+            console.log(`Found ${group.length} objects with identical traits: `, group.map(obj => obj.block));
+        }
+    }
+}
 loadBots()
 let parts = {
     backgrounds:{
@@ -71,22 +97,37 @@ let parts = {
         },
         "city":{
             rules:{
-                5:7
+                5:5
             }
         },
         "dmt":{
+            rules:{
+                5:4
+            }
 
         },
         "dungeon":{
+            rules:{
+                5:3
+            }
 
         },
         "gold":{
+            rules:{
+                5:2
+            }
 
         },
         "mechanic":{
+            rules:{
+                5:1
+            }
 
         },
         "stars":{
+            rules:{
+                5:0
+            }
 
         },
     },
@@ -202,111 +243,163 @@ let parts = {
             
         },
         "bitrunner":{
+            rules:{
+                2:0
+            }
             
         },
         "blueXVisor":{
+            rules:{
+                3:9,
+                2:1
+            }
             
         },
         "blurryBlue":{
+            rules:{
+                3:8,
+                2:1
+            }
             
         },
         "blurryOrange":{
+            rules:{
+                3:7,
+                2:1
+            }
             
         },
         "classicXVisor":{
+            rules:{
+                3:6,
+                2:1
+            }
             
         },
         "cursedVR":{
+            rules:{
+                3:5,
+                2:1
+            }
             
         },
         "dmtVR":{
+            rules:{
+                3:4,
+                2:1
+            }
             
         },
         "eliteShades":{
+            rules:{
+                3:3,
+                2:1
+            }
             
         },
         "eyePatch":{
+            rules:{
+                3:2,
+                2:1
+            }
             
         },
         "fud":{
+            rules:{
+                3:1,
+                2:1
+            }
             
         },
         "laser":{
             rules:{
-                3:9
+                3:9,
+                2:2
             }
             
         },
         "neoTokyo":{
             rules:{
-                3:8
+                3:8,
+                2:2
             }
             
         },
         "orange":{
             rules:{
-                3:7
+                3:7,
+                2:2
             }
             
         },
         "ordi":{
             rules:{
-                3:6
+                3:6,
+                2:2
             }
             
         },
         "ordiBlue":{
             rules:{
-                3:0
+                3:0,
+                2:2
             }
             
         },
         "ordinalThug":{
             rules:{
-                3:0
+                3:0,
+                2:2
             }
             
         },
         "oversized":{
             rules:{
-                3:0
+                3:0,
+                2:2
             }
             
         },
         "purple":{
             
             rules:{
-                3:5
+                3:5,
+                2:2
             }
             
         },
         "redTriclops":{
             rules:{
-                3:4
+                3:4,
+                2:2
             }
             
         },
         "stoned":{
             rules:{
-                3:3
+                3:3,
+                2:2
             }
             
         },
         "triclops":{
             rules:{
-                3:2
+                3:2,
+                2:2
             }
             
         },
         "XPVisor":{
             rules:{
-                3:1
+                3:1,
+                2:2
             }
             
         },
         "yellowShades":{
             rules:{
-                3:0
+                3:0,
+                2:2
             }
             
         }
@@ -317,18 +410,33 @@ let parts = {
             
         },
         "bonnie":{
+            rules:{
+                4:9
+            }
             
         },
         "circuits":{
+            rules:{
+                4:8
+            }
             
         },
         "cursed":{
+            rules:{
+                4:7
+            }
             
         },
         "daft":{
+            rules:{
+                4:6
+            }
             
         },
         "pirateDjinn":{
+            rules:{
+                4:5
+            }
             
         }
     },
@@ -339,20 +447,38 @@ let parts = {
         },
         "blunt":{
             
+            rules:{
+                4:5
+            }
         },
         "bubblegum":{
-            
+
+            rules:{
+                4:4
+            }
         },
         "laugh":{
+            rules:{
+                4:3
+            }
             
         },
         "pirate":{
+            rules:{
+                4:2
+            }
             
         },
         "rainbow":{
+            rules:{
+                4:1
+            }
             
         },
         "toungue":{
+            rules:{
+                4:0
+            }
             
         }
     }
