@@ -27,10 +27,10 @@ function drawBot(num){
             <img style="top:${num*272}px" class="piece" src="./parts/bodies/${traits.bodies}.png" />
             <img style="top:${num*272}px" class="piece" src="./parts/clothing/${traits.clothing}.png" />
             <img style="top:${num*272}px" class="piece" src="./parts/accessories/${traits.accessories}.png" />
+            <img style="top:${num*272}px" class="piece" src="./parts/borg/${traits.borg}.png" />
             <img style="top:${num*272}px" class="piece" src="./parts/eyes/${traits.eyes}.png" />
             <img style="top:${num*272}px" class="piece" src="./parts/mouths/${traits.mouths}.png" />
             <img style="top:${num*272}px" class="piece" src="./parts/hats/${traits.hats}.png" />
-            <img style="top:${num*272}px" class="piece" src="./parts/borg/${traits.borg}.png" />
             <div style="top:${num*272}px; left:10%" class="piece">
             
             ${JSON.stringify(bots[num], false, '\n').replace(",", `,\n`)}
@@ -42,6 +42,7 @@ function ruleQualifies(data, digits){
     let r = false
     let andRules=data.rules||{}
     let orRules=data.orRules||{}
+    let notRules=data.notRules||{}
     let containsRules=data.containsRules
 
     // console.log(digits, data)
@@ -58,6 +59,14 @@ function ruleQualifies(data, digits){
         for(rule in orRules){
             if(Number(digits[rule])==orRules[rule]){
                 return true
+            }
+        }
+    }
+    //check OR rules
+    if(notRules!=undefined){
+        for(rule in notRules){
+            if(Number(digits[rule])==notRules[rule]){
+                return false
             }
         }
     }
@@ -135,7 +144,7 @@ let parts = {
         "dmt":{
             containsRules:[
                 {
-                    n:"3",
+                    n:"8",
                     c:2
                 }
             ]
@@ -162,7 +171,7 @@ let parts = {
         "mechanic":{
             containsRules:[
                 {
-                    n:"8",
+                    n:"3",
                     c:2
                 }
             ]
@@ -230,6 +239,10 @@ let parts = {
 
             rules:{
                 4:7
+            },
+            notRules:{
+                5:7,
+                5:9
             }
         }
     },
@@ -240,13 +253,16 @@ let parts = {
         },
         "borg1":{
             rules:{
-                4:9
+                4:8
             }
             
         },
         "borg2":{
             rules:{
-                4:8
+                4:9
+            },
+            notRules:{
+                3:0,
             }
             
         },
@@ -485,13 +501,20 @@ let parts = {
             rules:{
                 2:1,
                 4:7
+            },
+            notRules:{
+                5:4
             }
-            
         },
         "daft":{
             rules:{
                 2:1,
                 4:6
+            },
+            notRules:{
+                3:7,
+                3:8,
+                
             }
             
         },
@@ -512,13 +535,16 @@ let parts = {
             
             rules:{
                 5:0
+            },
+            notRules:{
+                4:6
             }
         },
         "bubblegum":{
 
             rules:{
                 5:0,
-                2:1
+                2:0
             }
         },
         "laugh":{
