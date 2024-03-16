@@ -1,133 +1,5 @@
 let bots=[]
 
-async function loadBots(){
-    let inscriptionList= await fetch("./inscriptions.json")
-    inscriptionList = await inscriptionList.json()
-    let blockList= await fetch("./blocks.json")
-    blockList = await blockList.json()
-    for(i in inscriptionList){
-        bots[i]={
-            id:inscriptionList[i],
-            block:blockList[i],
-            traits:generateTraits(blockList[i])
-        }
-    }
-    let botHTML=``
-    for(b in bots){
-        botHTML+=drawBot(b)
-    }
-    document.getElementById("bots").innerHTML=botHTML
-
-}
-function drawBot(num){
-    let traits=bots[num].traits
-    return `
-        <div class="bot">
-            <img style="top:${num*272}px" class="piece border" src="./parts/backgrounds/${traits.backgrounds}.png" />
-            <img style="top:${num*272}px" class="piece" src="./parts/bodies/${traits.bodies}.png" />
-            <img style="top:${num*272}px" class="piece" src="./parts/clothing/${traits.clothing}.png" />
-            <img style="top:${num*272}px" class="piece" src="./parts/accessories/${traits.accessories}.png" />
-            <img style="top:${num*272}px" class="piece" src="./parts/borg/${traits.borg}.png" />
-            <img style="top:${num*272}px" class="piece" src="./parts/eyes/${traits.eyes}.png" />
-            <img style="top:${num*272}px" class="piece" src="./parts/mouths/${traits.mouths}.png" />
-            <img style="top:${num*272}px" class="piece" src="./parts/hats/${traits.hats}.png" />
-            <div style="top:${num*272}px; left:10%" class="piece">
-            
-            ${JSON.stringify(bots[num], false, '\n').replace(",", `,\n`)}
-            </div>
-        </div>
-    `
-}
-function ruleQualifies(data, digits){
-    let r = false
-    let andRules=data.rules||{}
-    let orRules=data.orRules||{}
-    let notRules=data.notRules||{}
-    let containsRules=data.containsRules
-
-    // console.log(digits, data)
-    //check contains rules
-    if(containsRules!=undefined){
-        for(rule in containsRules){
-            if(digits.filter(value => value === containsRules[rule].n).length == containsRules[rule].c){
-                return true
-            }
-        }
-    }
-    //check OR rules
-    if(orRules!=undefined){
-        for(rule in orRules){
-            if(Number(digits[rule])==orRules[rule]){
-                return true
-            }
-        }
-    }
-    //check OR rules
-    if(notRules!=undefined){
-        for(rule in notRules){
-            if(Number(digits[rule])==notRules[rule]){
-                return false
-            }
-        }
-    }
-    //check AND rules
-    
-    if(andRules!=undefined){
-        for(rule in andRules){
-            if(Number(digits[rule])==andRules[rule]){
-                r=true
-            }else{return false}
-        }
-    }
-    return r
-}
-function getTrait(traitType, block){
-    let digits = block.toString().split("")
-    let trait=""
-    for(part in parts[traitType]){
-        let partData = parts[traitType][part]
-        if(partData.default==true){
-            trait=part
-        }else if(ruleQualifies(partData, digits)){
-            return part
-        }
-    }
-    return trait
-
-}
-function generateTraits(block){
-    let traits={}
-    for(traitType in parts){
-        // traits[traitType]
-        traits[traitType]=getTrait(traitType, block)
-    }
-    return traits
-}
-function findObjectsWithIdenticalTraits(objects) {
-    const traitGroups = {};
-
-    objects.forEach(obj => {
-        // Create a signature string from the traits object
-        const traitsSignature = JSON.stringify(obj.traits);
-
-        // If the group for this signature does not exist, create it
-        if (!traitGroups[traitsSignature]) {
-            traitGroups[traitsSignature] = [];
-        }
-
-        // Add the object to the corresponding group
-        traitGroups[traitsSignature].push(obj);
-    });
-
-    // Now, traitGroups contains arrays of objects grouped by identical traits
-    // You can process this however you need; for example, to find groups with more than one member (identical traits)
-    for (const [signature, group] of Object.entries(traitGroups)) {
-        if (group.length > 1) {
-            console.log(`Found ${group.length} objects with identical traits: `, group.map(obj => obj.block));
-        }
-    }
-}
-loadBots()
 let parts = {
     backgrounds:{
         "none":{
@@ -138,6 +10,11 @@ let parts = {
                 {
                     n:"9",
                     c:2
+                },
+                
+                {
+                    n:"7",
+                    c:1
                 }
             ]
         },
@@ -146,6 +23,10 @@ let parts = {
                 {
                     n:"8",
                     c:2
+                },
+                {
+                    n:"7",
+                    c:1
                 }
             ]
 
@@ -155,6 +36,10 @@ let parts = {
                 {
                     n:"5",
                     c:2
+                },
+                {
+                    n:"7",
+                    c:1
                 }
             ]
 
@@ -164,6 +49,10 @@ let parts = {
                 {
                     n:"4",
                     c:2
+                },
+                {
+                    n:"7",
+                    c:1
                 }
             ]
 
@@ -173,6 +62,10 @@ let parts = {
                 {
                     n:"3",
                     c:2
+                },
+                {
+                    n:"7",
+                    c:1
                 }
             ]
 
@@ -182,6 +75,10 @@ let parts = {
                 {
                     n:"7",
                     c:2
+                },
+                {
+                    n:"7",
+                    c:1
                 }
             ]
 
@@ -253,7 +150,7 @@ let parts = {
         },
         "borg1":{
             rules:{
-                4:8
+                4:6
             }
             
         },
@@ -261,9 +158,6 @@ let parts = {
             rules:{
                 4:9
             },
-            notRules:{
-                3:0,
-            }
             
         },
     },
@@ -317,21 +211,21 @@ let parts = {
         "dmtVR":{
             rules:{
                 2:0,
-                5:0
+                4:6
             }
             
         },
         "eyePatch":{
             rules:{
                 2:0,
-                5:1
+                4:7
             }
             
         },
         "bitmapVR":{
             rules:{
                 2:0,
-                5:2
+                4:8
             }
             
         },
@@ -500,7 +394,7 @@ let parts = {
         "cursed":{
             rules:{
                 2:1,
-                4:7
+                4:5
             },
             notRules:{
                 5:4
@@ -520,7 +414,7 @@ let parts = {
         },
         "pirateDjinn":{
             rules:{
-                2:0,
+                2:1,
                 4:7
             }
             
@@ -532,47 +426,186 @@ let parts = {
             
         },
         "blunt":{
-            
-            rules:{
-                5:0
+            orRules:{
+
             },
+            sumRules:[9],
             notRules:{
                 4:6
             }
         },
         "bubblegum":{
 
-            rules:{
-                5:0,
-                2:0
+            
+            sumRules:[8],
+            notRules:{
+                4:6
             }
         },
+        "rainbow":{
+            
+            sumRules:[7],
+            
+        },
         "laugh":{
-            rules:{
-                5:1
-            }
+            
+            sumRules:[6],
             
         },
         "pirate":{
-            rules:{
-                5:2
-            }
             
-        },
-        "rainbow":{
-            rules:{
-                5:3
-            }
+            sumRules:[5],
             
         },
         "toungue":{
-            rules:{
-                5:4
-            }
+            
+            sumRules:[4],
             
         }
     }
 }
+async function loadBots(){
+    let inscriptionList= await fetch("./inscriptions.json")
+    inscriptionList = await inscriptionList.json()
+    let blockList= await fetch("./blocks.json")
+    blockList = await blockList.json()
+    for(i in inscriptionList){
+        if(i<2222){
+            bots[i]={
+                id:inscriptionList[i],
+                block:blockList[i],
+                traits:generateTraits(blockList[i])
+            }
+        }
+    }
+    let botHTML=``
+    for(b in bots){
+        botHTML+=drawBot(b)
+    }
+    document.getElementById("bots").innerHTML=botHTML
+
+}
+function drawBot(num){
+    let traits=bots[num].traits
+    return `
+        <div class="bot">
+            <img style="top:${num*272}px" class="piece border" src="./parts/backgrounds/${traits.backgrounds}.png" />
+            <img style="top:${num*272}px" class="piece" src="./parts/bodies/${traits.bodies}.png" />
+            <img style="top:${num*272}px" class="piece" src="./parts/clothing/${traits.clothing}.png" />
+            <img style="top:${num*272}px" class="piece" src="./parts/accessories/${traits.accessories}.png" />
+            <img style="top:${num*272}px" class="piece" src="./parts/borg/${traits.borg}.png" />
+            <img style="top:${num*272}px" class="piece" src="./parts/eyes/${traits.eyes}.png" />
+            <img style="top:${num*272}px" class="piece" src="./parts/mouths/${traits.mouths}.png" />
+            <img style="top:${num*272}px" class="piece" src="./parts/hats/${traits.hats}.png" />
+            <div style="top:${num*272}px; left:10%" class="piece">
+            
+            ${JSON.stringify(bots[num], false, '\n').replace(",", `,\n`)}
+            </div>
+        </div>
+    `
+}
+function ruleQualifies(data, digits){
+    let r = false
+    let andRules=data.rules||{}
+    let orRules=data.orRules||{}
+    let notRules=data.notRules||{}
+    let containsRules=data.containsRules||{}
+    let sumRules=data.sumRules||{}
+
+    // console.log(digits, data)
+    //check NOT rules
+    if(notRules!=undefined){
+        for(rule in notRules){
+            if(Number(digits[rule])==notRules[rule]){
+                return false
+            }
+        }
+    }
+    //check contains rules
+    if(sumRules!=undefined){
+        for(rule in sumRules){
+            if(sumRules[rule]==sumModTen(digits)){
+                return true
+            }
+            
+        }
+    }
+    //check contains rules
+    if(containsRules!=undefined){
+        for(rule in containsRules){
+            if(digits.filter(value => value === containsRules[rule].n).length == containsRules[rule].c){
+                r = true
+            }else{
+                return false
+            }
+        }
+    }
+    //check OR rules
+    if(orRules!=undefined){
+        for(rule in orRules){
+            if(Number(digits[rule])==orRules[rule]){
+                return true
+            }
+        }
+    }
+    //check AND rules
+    
+    if(andRules!=undefined){
+        for(rule in andRules){
+            if(Number(digits[rule])==andRules[rule]){
+                r=true
+            }else{return false}
+        }
+    }
+    return r
+}
+function getTrait(traitType, block){
+    let digits = block.toString().split("")
+    let trait=""
+    for(part in parts[traitType]){
+        let partData = parts[traitType][part]
+        if(partData.default==true){
+            trait=part
+        }else if(ruleQualifies(partData, digits)){
+            return part
+        }
+    }
+    return trait
+
+}
+function generateTraits(block){
+    let traits={}
+    for(traitType in parts){
+        // traits[traitType]
+        traits[traitType]=getTrait(traitType, block)
+    }
+    return traits
+}
+function findObjectsWithIdenticalTraits(objects) {
+    const traitGroups = {};
+
+    objects.forEach(obj => {
+        // Create a signature string from the traits object
+        const traitsSignature = JSON.stringify(obj.traits);
+
+        // If the group for this signature does not exist, create it
+        if (!traitGroups[traitsSignature]) {
+            traitGroups[traitsSignature] = [];
+        }
+
+        // Add the object to the corresponding group
+        traitGroups[traitsSignature].push(obj);
+    });
+
+    // Now, traitGroups contains arrays of objects grouped by identical traits
+    // You can process this however you need; for example, to find groups with more than one member (identical traits)
+    for (const [signature, group] of Object.entries(traitGroups)) {
+        if (group.length > 1) {
+            console.log(`Found ${group.length} objects with identical traits: `, group.map(obj => obj.block));
+        }
+    }
+}
+loadBots()
 function countTraitFrequencies(objects) {
     const traitFrequencies = {};
   
@@ -597,3 +630,115 @@ function countTraitFrequencies(objects) {
   
     return traitFrequencies;
   }
+  function downloadCompositeImage(num) {
+    let traits = bots[num].traits;
+    let canvas = document.createElement('canvas');
+    canvas.width = 128; // Set to your desired width
+    canvas.height = 128; // Set to your desired height
+    let ctx = canvas.getContext('2d');
+
+    // List of images to overlay, in order
+    let images = [
+        `./parts/backgrounds/${traits.backgrounds}.png`,
+        `./parts/bodies/${traits.bodies}.png`,
+        `./parts/clothing/${traits.clothing}.png`,
+        `./parts/accessories/${traits.accessories}.png`,
+        `./parts/borg/${traits.borg}.png`,
+        `./parts/eyes/${traits.eyes}.png`,
+        `./parts/mouths/${traits.mouths}.png`,
+        `./parts/hats/${traits.hats}.png`
+    ];
+
+    // Function to load and draw images
+    let loadAndDrawImage = (url) => {
+        return new Promise((resolve, reject) => {
+            let img = new Image();
+            img.onload = () => {
+                ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                resolve();
+            };
+            img.onerror = reject;
+            img.src = url;
+        });
+    };
+
+    // Chain image loading and drawing promises
+    images.reduce((promiseChain, imageUrl) => {
+        return promiseChain.then(() => loadAndDrawImage(imageUrl));
+    }, Promise.resolve()).then(() => {
+        // Once all images are drawn, create a link and download the composite image
+        let link = document.createElement('a');
+        link.download = `composite_bot_${num}.png`;
+        link.href = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
+        link.click();
+    }).catch(error => {
+        console.error("Failed to load an image", error);
+    });
+}
+function downloadAllBotsAsZip() {
+    let zip = new JSZip();
+
+    // Helper function to load image
+    const loadImage = (src) => {
+        return new Promise((resolve, reject) => {
+            const img = new Image();
+            img.crossOrigin = "Anonymous"; // Handle CORS
+            img.onload = () => resolve(img);
+            img.onerror = reject;
+            img.src = src;
+        });
+    };
+
+    // Helper function to draw image to canvas and return data URL
+    const drawToCanvas = async (traits) => {
+        let canvas = document.createElement('canvas');
+        canvas.width = 128; // Adjust based on actual image sizes
+        canvas.height = 128; // Adjust based on actual image sizes
+        let ctx = canvas.getContext('2d');
+
+        const parts = [
+            `./parts/backgrounds/${traits.backgrounds}.png`,
+            `./parts/bodies/${traits.bodies}.png`,
+            `./parts/clothing/${traits.clothing}.png`,
+            `./parts/accessories/${traits.accessories}.png`,
+            `./parts/borg/${traits.borg}.png`,
+            `./parts/eyes/${traits.eyes}.png`,
+            `./parts/mouths/${traits.mouths}.png`,
+            `./parts/hats/${traits.hats}.png`,
+        ];
+
+        for (let src of parts) {
+            const img = await loadImage(src);
+            ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+            console.log("processing bot ")
+        }
+
+        return canvas.toDataURL("image/png");
+    };
+
+    // Create a chain of promises to process each bot
+    const allBotsProcessed = bots.reduce((chain, bot, index) => {
+        return chain.then(() => {
+            return drawToCanvas(bot.traits).then(dataUrl => {
+                const imgData = dataUrl.replace(/^data:image\/(png|jpg);base64,/, "");
+                zip.file(`bot_${index}.png`, imgData, {base64: true});
+            });
+        });
+    }, Promise.resolve());
+
+    // When all bots are processed, generate ZIP and trigger download
+    allBotsProcessed.then(() => {
+        zip.generateAsync({type:"blob"}).then(function(content) {
+            saveAs(content, "bots.zip");
+        });
+    }).catch(error => {
+        console.error("An error occurred:", error);
+    });
+}
+function sumModTen(numbers) {
+    // Sum all numbers after converting them from strings to numbers
+    const sum = numbers.reduce((acc, current) => acc + Number(current), 0);
+    
+    // Return the sum modulo 10
+    return sum % 10;
+}
