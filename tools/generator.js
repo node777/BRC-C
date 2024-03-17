@@ -219,6 +219,13 @@ let parts = {
             default:true
             
         },
+        "xray":{
+            rules:{
+                2:1,
+                3:1,
+                4:6
+            }
+        },
         "dmtVR":{
             rules:{
                 2:0,
@@ -414,6 +421,7 @@ let parts = {
         "daft":{
             rules:{
                 2:1,
+                3:1,
                 4:6
             },
             notRules:{
