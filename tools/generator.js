@@ -215,7 +215,7 @@ let parts = {
         },
     },
     eyes:{
-        "orange":{
+        "ordi":{
             default:true
             
         },
@@ -376,7 +376,7 @@ let parts = {
             }
             
         },
-        "ordi":{
+        "orange":{
             rules:{
                 2:2,
                 3:8
