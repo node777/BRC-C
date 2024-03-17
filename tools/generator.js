@@ -149,14 +149,25 @@ let parts = {
             
         },
         "borg1":{
+            notRules:{
+            },
             rules:{
-                4:6
+                4:6,
+                2:2
             }
             
         },
         "borg2":{
             rules:{
-                4:9
+                4:9,
+                2:2
+            },
+            
+        },
+        "borg3":{
+            rules:{
+                5:9,
+                4:7
             },
             
         },
@@ -429,37 +440,44 @@ let parts = {
             orRules:{
 
             },
-            sumRules:[9],
+            rules:{
+                5:0,
+                2:1
+            },
             notRules:{
                 4:6
             }
         },
         "bubblegum":{
 
-            
-            sumRules:[8],
-            notRules:{
-                4:6
+            rules:{
+                5:4,
+                2:0
             }
         },
         "rainbow":{
-            
-            sumRules:[7],
+            rules:{
+                5:3,
+                2:2
+            }
             
         },
         "laugh":{
-            
-            sumRules:[6],
+            rules:{
+                5:1
+            }
             
         },
         "pirate":{
-            
-            sumRules:[5],
+            rules:{
+                5:2
+            }
             
         },
         "toungue":{
-            
-            sumRules:[4],
+            rules:{
+                5:3
+            }
             
         }
     }
